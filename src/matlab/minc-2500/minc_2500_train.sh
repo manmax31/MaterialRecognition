@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+CAFFE_DIR=/usr/local/caffe/caffe-master
+
+$CAFFE_DIR/build/tools/caffe train \
+    --solver=../../data/minc-2500/models/minc_2500_solver.prototxt \
+    --weights=/usr/local/caffe/caffe-master/models/bvlc_alexnet/bvlc_alexnet.caffemodel \
+    -gpu 0 
+
+
