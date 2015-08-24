@@ -18,7 +18,6 @@ PATCH_BAL_DIR = join(MINC_DIR, 'patch-balance-under')
 TRAIN_DIR = join(PATCH_DIR, 'train')
 VAL_DIR = join(PATCH_DIR, 'validate')
 TEST_DIR = join(PATCH_DIR, 'test')
-PATCH_DIR = join(MINC_DIR, 'patch')
 CATEGORIES = [line.strip() for line in open(CATEGORIES_FILE)]
 N_CLASSES = len(CATEGORIES)
 
