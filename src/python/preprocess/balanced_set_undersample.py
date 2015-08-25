@@ -11,7 +11,18 @@ import errno
 
 import numpy as np
 
-MINC_DIR = '../../../data/MINC/'
+
+# MINC_DIR = '../../../data/MINC/'
+# CATEGORIES_FILE = join(MINC_DIR, 'minc', 'categories.txt')
+# PATCH_DIR = join(MINC_DIR, 'patch')
+# PATCH_BAL_DIR = join(MINC_DIR, 'patch-balance-under')
+# TRAIN_DIR = join(PATCH_DIR, 'train')
+# VAL_DIR = join(PATCH_DIR, 'validate')
+# TEST_DIR = join(PATCH_DIR, 'test')
+# CATEGORIES = [line.strip() for line in open(CATEGORIES_FILE)]
+# N_CLASSES = len(CATEGORIES)
+
+MINC_DIR = '/srv/datasets/Materials/OpenSurfaces'
 CATEGORIES_FILE = join(MINC_DIR, 'minc', 'categories.txt')
 PATCH_DIR = join(MINC_DIR, 'patch')
 PATCH_BAL_DIR = join(MINC_DIR, 'patch-balance-under')
@@ -98,6 +109,6 @@ def run_copy(group):
 
 if __name__ == '__main__':
     create_patch_class_dirs()
-    run_copy('validate')
+    # run_copy('validate')
     run_copy('train')
-    run_copy('test')
+    # run_copy('test')
