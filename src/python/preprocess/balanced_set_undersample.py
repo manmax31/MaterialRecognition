@@ -13,6 +13,7 @@ import numpy as np
 
 
 
+
 # MINC_DIR = '../../../data/MINC/'
 # CATEGORIES_FILE = join(MINC_DIR, 'minc', 'categories.txt')
 # PATCH_DIR = join(MINC_DIR, 'patch')
@@ -111,5 +112,6 @@ def run_copy(group):
 if __name__ == '__main__':
     create_patch_class_dirs()
     # run_copy('validate')
+    print("Creating balanced trainset")
     run_copy('train')
     # run_copy('test')
