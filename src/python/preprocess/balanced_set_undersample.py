@@ -14,6 +14,8 @@ import numpy as np
 
 
 
+
+
 # MINC_DIR = '../../../data/MINC/'
 # CATEGORIES_FILE = join(MINC_DIR, 'minc', 'categories.txt')
 # PATCH_DIR = join(MINC_DIR, 'patch')
@@ -56,14 +58,14 @@ def get_img_files(group):
     return [filter(lambda x: x.endswith('.jpg'), listdir(join(PATCH_DIR, group, dir))) for dir in CATEGORIES]
 
 
-def get_smallest_category(img_list):
+def get_smallest_category(group):
     """
     This function gets the class with minimum images and the number of images in it
-    :param img_list:
+    :param group: train or test or validate
     :return min_class: class_name with minimum images. e.g. 'wood'
     :return min_qty: number of images in minimum class
     """
-    qty_list = map(len, get_img_files('validate'))
+    qty_list = map(len, get_img_files(group))
     min_qty = min(qty_list)
     min_class = CATEGORIES[np.argmin(qty_list)]
 
@@ -93,7 +95,7 @@ def run_copy(group):
     :return:
     """
     imgs_list = get_img_files(group)
-    min_category, min_qty = get_smallest_category(imgs_list)
+    min_category, min_qty = get_smallest_category(group)
 
     for dir in CATEGORIES:
         src_dir = join(PATCH_DIR, group, dir)
