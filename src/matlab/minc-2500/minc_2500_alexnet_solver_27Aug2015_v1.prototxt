@@ -1,0 +1,37 @@
+net: "minc_2500_alexnet_train_val.prototxt"
+
+# We have a validation batch size of 115, 
+# so 25 validation iterations would
+# cover the full 2,850 validation images.
+test_iter: 25
+
+# Carry out testing every 1000 training iterations.
+test_interval: 1000
+
+test_compute_loss: true
+
+# Display after every (this number) of iterations
+display: 100
+
+solver_type: SGD
+# lr for fine-tuning should be lower than when starting from scratch
+base_lr: 0.001
+momentum: 0.9
+weight_decay: 0.0005
+
+# The learning rate decay policy
+lr_policy: "step"
+gamma: 0.5
+# stepsize should also be lower, as we're closer to being done
+stepsize: 4000
+
+# The maximum number of iterations
+max_iter: 50000
+
+# snapshot intermediate results
+snapshot: 2000
+snapshot_prefix: "/home/huynh/Research/MatClassification/results/minc_2500/alexnet/27_08_2015/minc_2500_alexnet_train1_27Aug2015_v1"
+
+solver_mode: GPU
+
+

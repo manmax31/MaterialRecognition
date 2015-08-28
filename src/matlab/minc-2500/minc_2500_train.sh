@@ -3,8 +3,8 @@
 CAFFE_DIR=/usr/local/caffe/caffe-master
 
 $CAFFE_DIR/build/tools/caffe train \
-    --solver=../../data/minc-2500/models/minc_2500_solver.prototxt \
+    --solver=minc_2500_alexnet_solver_fc8_tuned.prototxt \
     --weights=/usr/local/caffe/caffe-master/models/bvlc_alexnet/bvlc_alexnet.caffemodel \
-    -gpu 0 
+    -gpu 1 
 
 
