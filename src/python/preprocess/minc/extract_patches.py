@@ -5,6 +5,8 @@ This script extracts patches from images from train.txt, categories.txt and vali
 
 from os import listdir, makedirs
 from os.path import join, exists
+import shutil
+import errno
 
 import cv2
 import pandas as pd
@@ -83,6 +85,22 @@ def create_patch_class_dirs():
             dir = join(PATCH_DIR, group, category)
             if not exists(dir):
                 makedirs(dir)
+
+
+def copy(src, dst):
+    """
+    This function copies files from src to dst
+    :param src: source file
+    :param dst: destination file
+    :return:
+    """
+    try:
+        shutil.copytree(src, dst)
+    except OSError as exc:
+        if exc.errno == errno.ENOTDIR:
+            shutil.copy(src, dst)
+        else:
+            raise
 
 
 if __name__ == '__main__':

@@ -13,9 +13,6 @@ import numpy as np
 
 
 
-
-
-
 # MINC_DIR = '../../../data/MINC/'
 # CATEGORIES_FILE = join(MINC_DIR, 'minc', 'categories.txt')
 # PATCH_DIR = join(MINC_DIR, 'patch')
@@ -52,7 +49,7 @@ def create_patch_class_dirs():
 
 def get_img_files(group):
     """
-    This function indexes the names of each file in 10 different dataframes based on their extension
+    This function indexes the names of each file in 23 different lists based on their class
     :return: list of list of images in each class [ ['1.jpg'], ['2.jpg', '3.jpg'], [''5.jpg''], ...]
     """
     return [filter(lambda x: x.endswith('.jpg'), listdir(join(PATCH_DIR, group, dir))) for dir in CATEGORIES]

@@ -1,0 +1,20 @@
+To summarize, the steps I followed to train Caffe were:
+
+1. Group your data into a training folder and a testing folder. Caffe will train on one set of images and test it's accuracy on the other set of images. Your data should be formatted to be 256x256 color jpeg files. For each set, create a text file specifying the categories that the pictures belong to. This text file is formatted like so,
+/home/my_test_dir/picture-foo.jpg 0
+/home/my_test_dir/picture-foo1.jpg 1
+where picture-foo belongs to category 0 and picture-foo1 belongs to category 1.
+
+2. Now copy and modify create_imagenet.sh from the imagenet directory, changing the arguments to point to your folders and text files. Run create_imagenet.sh and it will generate training and testing leveldb directories. Caffe will work with these leveldb directories from now on.
+
+3. Copy and modify make_imagenet_mean.sh from the imagenet directory, changing the arguments to point at your spanking new leveldb folders. This will generate mean.prototxt files that caffe uses to normalize images, improving your results. I would recommend specifying absolute paths for everything to minimize headaches.
+
+4. Copy and modify imagenet_{deploy,solver,train,val}.prototxt. You'll want to change the source and mean_file parameters in imagenet_{train,val} to point to your leveldbs and your mean.prototxt files (again, absolute paths). You may also want to change the batch_size parameter based on the hardware that you'll be running caffe on. Lastly, change the solver.prototxt file to point to your newly modified train and val prototxt files! I believe you can leave deploy.prototxt alone.
+
+5. Take a step back and make sure you haven't missed anything. You will have deploy, solver, train, and val prototxt files; two image mean binaryproto files; one train_leveldb folder, and one val_leveldb folder. That's two folders and six files in total.
+
+6. You guessed it- copy and modify train_imagenet.sh! Point it to your solver prototxt file.
+
+Run the modified train_imagenet script. This will periodically spit out solverstate files and data files with names like caffe_train_iter_#.
+
+7. After training terminates, you can find a script in CAFFE_ROOT_DIR/build/tools called test_net.bin. test_net.bin will take your val.prototxt, a caffe_train_iter_# data file, and the number of testing iterations as arguments. It will tell you how your trained network is doing.
