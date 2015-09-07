@@ -7,7 +7,8 @@ from os.path import join, exists
 import shutil
 import errno
 
-DTD_DIR = "/Users/manabchetia/Documents/PyCharm/MaterialRecognition/data/dtd"
+# DTD_DIR = "/Users/manabchetia/Documents/PyCharm/MaterialRecognition/data/dtd"
+DTD_DIR = "/srv/datasets/Materials/DTD/dtd-r1.0.1/dtd"
 IMG_DIR = join(DTD_DIR, 'images')
 FILE_DIR = join(DTD_DIR, 'labels')
 OUTPUT_DIR = join(DTD_DIR, 'output')

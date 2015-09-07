@@ -12,7 +12,6 @@ import errno
 import numpy as np
 
 
-
 # MINC_DIR = '../../../data/MINC/'
 # CATEGORIES_FILE = join(MINC_DIR, 'minc', 'categories.txt')
 # PATCH_DIR = join(MINC_DIR, 'patch')
