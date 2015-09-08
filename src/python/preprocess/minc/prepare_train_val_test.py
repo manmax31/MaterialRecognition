@@ -3,9 +3,8 @@ __author__ = 'manabchetia'
 from os import listdir
 from os.path import join
 
-
-# MINC_DIR = '/srv/datasets/Materials/OpenSurfaces'
-MINC_DIR = '/Users/manabchetia/Documents/PyCharm/MaterialRecognition/data/MINC'
+MINC_DIR = '/srv/datasets/Materials/OpenSurfaces'
+# MINC_DIR = '/Users/manabchetia/Documents/PyCharm/MaterialRecognition/data/MINC'
 CATEGORIES_FILE = join(MINC_DIR, 'minc', 'categories.txt')
 PATCH_DIR = join(MINC_DIR, 'patch')
 TRAIN_BAL_DIR = join(PATCH_DIR, 'train_balance')
