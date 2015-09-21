@@ -29,20 +29,18 @@ if __name__ == '__main__':
                 for image in images:
                     test_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
 
-                    # categories_test = filter(lambda x: '.DS_Store' not in x, listdir(TEST_DIR))
-                    # for category in categories_test:
-                    #     for fil in filter(lambda x: '.DS_Store' not in x, listdir(join(TEST_DIR, category))):
-                    #         # print str(join(TEST_DIR, category, fil)), CATEGORIES.index(category)
-                    #         test_file.write(str(join(TEST_DIR, category, fil)) + ' ' + str(CATEGORIES.index(category)) + '\n')
+        with open(join(SCALED_DIR, x, 'train.txt'), 'w') as train_file:
+            for category in CATEGORIES:
+                src_dir = join(SCALED_DIR, x, 'train', category)
+                images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
+                label = str(CATEGORIES.index(category))
+                for image in images:
+                    train_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
 
-                    # with open('val.txt', 'w') as val_file:
-                    #     categories_val = filter(lambda x: '.DS_Store' not in x, listdir(VAL_DIR))
-                    #     for category in categories_val:
-                    #         for fil in filter(lambda x: '.DS_Store' not in x, listdir(join(VAL_DIR, category))):
-                    #             val_file.write(str(join(VAL_DIR, category, fil)) + ' ' + str(CATEGORIES.index(category)) + '\n')
-                    #
-                    # with open('train_balance.txt', 'w') as train_file:
-                    #     categories_train = filter(lambda x: '.DS_Store' not in x, listdir(TRAIN_BAL_DIR))
-                    #     for category in categories_train:
-                    #         for fil in filter(lambda x: '.DS_Store' not in x, listdir(join(TRAIN_BAL_DIR, category))):
-                    #             train_file.write(str(join(TRAIN_BAL_DIR, category, fil)) + ' ' + str(CATEGORIES.index(category)) + '\n')
+        with open(join(SCALED_DIR, x, 'validate.txt'), 'w') as val_file:
+            for category in CATEGORIES:
+                src_dir = join(SCALED_DIR, x, 'validate', category)
+                images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
+                label = str(CATEGORIES.index(category))
+                for image in images:
+                    val_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
