@@ -1,4 +1,8 @@
 __author__ = 'manabchetia'
+'''
+This script creates the train.txt, test.txt and val.txt required for LMDB creation
+Contents of the files: [pathToImage classOfImage]
+'''
 
 from os import listdir
 from os.path import join
