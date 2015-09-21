@@ -12,7 +12,7 @@ DTD_DIR = "/srv/datasets/Materials/DTD/dtd-r1.0.1/dtd/"
 IMG_DIR = join(DTD_DIR, 'images')
 OUTPUT_DIR = join(DTD_DIR, 'output')
 ORIG_DIR = join(OUTPUT_DIR, 'images')
-SCALED_DIR = join(OUTPUT_DIR, 'image_' + str(SCALE))
+SCALED_DIR = join(OUTPUT_DIR, 'images_' + str(SCALE))
 CATEGORIES = filter(lambda x: '.DS_Store' not in x, listdir(IMG_DIR))
 
 
@@ -34,14 +34,15 @@ def prepare_folders():
                     makedirs(dir)
 
 
-def scale_image(img_name, path):
+def scale_image(img_name, src_path, dst_path):
     """
     This function resizes the smallest dimension of the image to the SCALE and maintains the aspect ratio
     :param img_name: string containing the name of the image
-    :param path: path of the image where is to be written
+    :param src_path: path of the image from image is read
+    :param dst_path: path of the image where is to be written
     :return:
     """
-    img = cv2.imread(img_name)
+    img = cv2.imread(join(src_path, img_name))
     height, width, _ = img.shape
     min_dim = np.argmin([width, height])
 
@@ -54,8 +55,8 @@ def scale_image(img_name, path):
 
     # img = img.resize((new_width, new_width), Image.ANTIALIAS)
     # img.save
-    img = cv2.resize(img, (new_width, new_height))
-    cv2.imwrite(path, img)
+    img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_LANCZOS4)
+    cv2.imwrite(join(dst_path, img_name), img)
 
 
 if __name__ == '__main__':
@@ -65,5 +66,8 @@ if __name__ == '__main__':
     for x in SETS:
         for group in ['train', 'test', 'validate']:
             for category in CATEGORIES:
-                images = filter(lambda image: image.endswith('.jpg'), listdir(join(ORIG_DIR, x, group, category)))
+                src_dir = join(ORIG_DIR, x, group, category)
+                dst_dir = join(SCALED_DIR, x, group, category)
+                images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
                 print images
+                # map(lambda image: scale_image(image, ), images)
