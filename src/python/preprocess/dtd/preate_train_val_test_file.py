@@ -21,7 +21,7 @@ if __name__ == '__main__':
     SETS = filter(lambda x: '.DS_Store' not in x, listdir(SCALED_DIR))
 
     for x in SETS:
-        with open('test.txt', 'w') as test_file:
+        with open(join(SCALED_DIR, x, 'test.txt'), 'w') as test_file:
             for category in CATEGORIES:
                 src_dir = join(SCALED_DIR, x, 'test', category)
                 images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
