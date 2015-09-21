@@ -2,11 +2,12 @@ __author__ = 'manabchetia'
 
 from os import listdir, makedirs
 from os.path import join, exists
+import random
 
 import numpy as np
 import cv2
 
-SCALE = 256
+SCALE = '256_512'
 
 DTD_DIR = "/srv/datasets/Materials/DTD/dtd-r1.0.1/dtd/"
 IMG_DIR = join(DTD_DIR, 'images')
@@ -45,6 +46,10 @@ def scale_image(img_name, src_path, dst_path):
     img = cv2.imread(join(src_path, img_name))
     height, width, _ = img.shape
     min_dim = np.argmin([width, height])
+
+    global SCALE
+    if SCALE == '256_512':
+        SCALE = random.randint(256, 512)
 
     if min_dim == 0:
         new_width = SCALE
