@@ -27,7 +27,8 @@ if __name__ == '__main__':
                 images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
                 label = str(CATEGORIES.index(category))
                 for image in images:
-                    test_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
+                    # test_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
+                    test_file.write(str(image) + ' ' + label + '\n')
 
         with open(join(SCALED_DIR, x, 'train.txt'), 'w') as train_file:
             for category in CATEGORIES:
@@ -35,7 +36,8 @@ if __name__ == '__main__':
                 images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
                 label = str(CATEGORIES.index(category))
                 for image in images:
-                    train_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
+                    # train_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
+                    train_file.write(str(image) + ' ' + label + '\n')
 
         with open(join(SCALED_DIR, x, 'validate.txt'), 'w') as val_file:
             for category in CATEGORIES:
@@ -43,4 +45,5 @@ if __name__ == '__main__':
                 images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
                 label = str(CATEGORIES.index(category))
                 for image in images:
-                    val_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
+                    # val_file.write(src_dir + '/' + str(image) + ' ' + label + '\n')
+                    val_file.write(str(image) + ' ' + label + '\n')
