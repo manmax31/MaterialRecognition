@@ -31,4 +31,4 @@ if __name__ == '__main__':
         categories_train = filter(lambda x: '.DS_Store' not in x, listdir(TRAIN_BAL_DIR))
         for category in categories_train:
             for fil in filter(lambda x: '.DS_Store' not in x, listdir(join(TRAIN_BAL_DIR, category))):
-                train_file.write(str(join(VAL_DIR, category, fil)) + ' ' + str(CATEGORIES.index(category)) + '\n')
+                train_file.write(str(join(TRAIN_BAL_DIR, category, fil)) + ' ' + str(CATEGORIES.index(category)) + '\n')
