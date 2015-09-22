@@ -50,15 +50,15 @@ def scale_image(img_name, src_path, dst_path):
     height, width, _ = img.shape
     min_dim = np.argmin([width, height])
 
-    global SCALE
+    # global SCALE
     if SCALE == '256_512':
-        SCALE = random.randint(256, 512)
+        scale = random.randint(256, 512)
 
     if min_dim == 0:
-        new_width = SCALE
+        new_width = scale  # SCALE
         new_height = new_width * height / width
     else:
-        new_height = SCALE
+        new_height = scale  # SCALE
         new_width = new_height * width / height
 
     # img = img.resize((new_width, new_width), Image.ANTIALIAS)
