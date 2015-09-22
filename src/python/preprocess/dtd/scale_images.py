@@ -72,6 +72,7 @@ if __name__ == '__main__':
 
     SETS = filter(lambda x: '.DS_Store' not in x, listdir(ORIG_DIR))
     for x in SETS:
+        print 'Set', x, 'is being processed...'
         for group in ['train', 'test', 'validate']:
             for category in CATEGORIES:
                 src_dir = join(ORIG_DIR, x, group, category)
