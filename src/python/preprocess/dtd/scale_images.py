@@ -77,4 +77,6 @@ if __name__ == '__main__':
                 src_dir = join(ORIG_DIR, x, group, category)
                 dst_dir = join(SCALED_DIR, x, group, category)
                 images = filter(lambda image: image.endswith('.jpg'), listdir(src_dir))
-                map(lambda image: scale_image(image, src_dir, dst_dir), images)
+                # map(lambda image: scale_image(image, src_dir, dst_dir), images)
+                for image in images:
+                    scale_image(image, src_dir, dst_dir)
