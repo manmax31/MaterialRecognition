@@ -53,6 +53,10 @@ def scale_image(img_name, src_path, dst_path):
     # global SCALE
     if SCALE == '256_512':
         scale = random.randint(256, 512)
+    elif SCALE == 256:
+        scale = 256
+    else:
+        scale = 384
 
     if min_dim == 0:
         new_width = scale  # SCALE
