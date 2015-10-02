@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Extract all the parameters of a network and concatenate them 
 % into a long feature vector.
 % 
@@ -6,8 +7,14 @@
 % 
 % Output:
 %   params: all the parameter values of all the (conv and fc) layers.
-%   m: a Map object whose entry keys are layer names and values are structures 
-%       containing the parameters in the corresponding layer.
+%    
+%   m: a Map object whose entry keys are layer names and values 
+%       are structures containing the parameters in the corresponding layer.
+%       Each structure contain the following members
+%       - weights: the weights of the conv filters or the fc layer.
+%       - bias: the bias of the conv filters or the fc layer.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function [params, m] = net_params(net, verbose)
     params = [];
         

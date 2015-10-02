@@ -26,6 +26,7 @@ weight_decay: 0.0005
 # stepsize: 4000
 
 lr_policy: "multistep"
+gamma: 0.5
 stepvalue: 4000
 stepvalue: 5500
 stepvalue: 9000

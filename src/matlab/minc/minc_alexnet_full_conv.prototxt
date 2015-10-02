@@ -1,28 +1,35 @@
-# AlexNet network prototxt file for batch testing purposes.
-name: "AlexNet-MINC"
+# Fully convolutional version of AlexNet (deployment mode).
+name: "AlexNet-MINC-Conv"
 
-layer {
-  name: "data"
-  type: "Data"
-  top: "data"
-  top: "label"
-  include {
-    phase: TEST
-  }
+input: "data"
+input_dim: 1
+input_dim: 3
+input_dim: 512
+input_dim: 512
 
-# mean pixel / channel-wise mean instead of mean image
-  transform_param {
-    crop_size: 227
-    mean_value: 104
-    mean_value: 117
-    mean_value: 124
-  }
-  data_param {
-    source: "/srv/datasets/Materials/OpenSurfaces/minc-2500/minc-2500_test1_lmdb"
-    batch_size: 128
-    backend: LMDB
-  }
-}
+#layer {
+#  name: "data"
+#  type: "Data"
+#  top: "data"
+#  top: "label"
+#  include {
+#    phase: TEST
+#  }
+
+## mean pixel / channel-wise mean instead of mean image
+#  transform_param {
+#    crop_size: 227
+#    mean_value: 104
+#    mean_value: 117
+#    mean_value: 124
+#  }
+#  data_param {
+##    source: "/srv/datasets/Materials/OpenSurfaces/minc-2500/minc-2500_test1_lmdb"	
+##    source: "/srv/datasets/Materials/OpenSurfaces/patch/test_db"
+#    batch_size: 115
+#    backend: LMDB
+#  }
+#}
 
 
 layer {
@@ -143,7 +150,7 @@ layer {
   name: "conv4"
   type: "Convolution"
   bottom: "conv3"
-  top: "conv4"
+  top: "conv4" 
   convolution_param {
     num_output: 384
     pad: 1
@@ -197,94 +204,95 @@ layer {
 
 
 layer {
-  name: "fc6"
-  type: "InnerProduct"
+  name: "fc6-conv"
+  type: "Convolution"
   bottom: "pool5"
-  top: "fc6"
-  inner_product_param {
+  top: "fc6-conv"
+  convolution_param {
     num_output: 4096
+    kernel_size: 6
   }
 }
 
 layer {
   name: "relu6"
   type: "ReLU"
-  bottom: "fc6"
-  top: "fc6"
+  bottom: "fc6-conv"
+  top: "fc6-conv"
 }
 
 layer {
   name: "drop6"
   type: "Dropout"
-  bottom: "fc6"
-  top: "fc6"
+  bottom: "fc6-conv"
+  top: "fc6-conv"
   dropout_param {
     dropout_ratio: 0.5
   }
 }
 
 layer {
-  name: "fc7"
-  type: "InnerProduct"
-  bottom: "fc6"
-  top: "fc7"
-  inner_product_param {
+  name: "fc7-conv"
+  type: "Convolution"
+  bottom: "fc6-conv"
+  top: "fc7-conv"
+  convolution_param {
     num_output: 4096
+    kernel_size:1
   }
 }
 
 layer {
   name: "relu7"
   type: "ReLU"
-  bottom: "fc7"
-  top: "fc7"
+  bottom: "fc7-conv"
+  top: "fc7-conv"
 }
 
 layer {
   name: "drop7"
   type: "Dropout"
-  bottom: "fc7"
-  top: "fc7"
+  bottom: "fc7-conv"
+  top: "fc7-conv"
   dropout_param {
     dropout_ratio: 0.5
   }
 }
 
-
 layer {
-  name: "fc8_minc"
-  type: "InnerProduct"
-  bottom: "fc7"
-  top: "fc_minc"
-  inner_product_param {
+  name: "fc8-conv"
+  type: "Convolution"
+  bottom: "fc7-conv"
+  top: "fc8-conv"
+  convolution_param {
     num_output: 23
+    kernel_size:1	
   }
 }
 
+#layer {
+#  name: "accuracy"
+#  type: "Accuracy"
+#  bottom: "fc8-conv"
+#  bottom: "label"
+#  top: "accuracy"
+#  include {
+#    phase: TEST
+#  }
+#}
 
-layer {
-  name: "accuracy"
-  type: "Accuracy"
-  bottom: "fc_minc"
-  bottom: "label"
-  top: "accuracy"
-  include {
-    phase: TEST
-  }
-}
-
-layer {
-  name: "loss"
-  type: "SoftmaxWithLoss"
-  bottom: "fc_minc"
-  bottom: "label"
-  top: "loss"
-}
+#layer {
+#  name: "loss"
+#  type: "SoftmaxWithLoss"
+#  bottom: "fc8-conv"
+#  bottom: "label"
+#  top: "loss"
+#}
 
 layer {
   name: "prob"
   type: "Softmax"
-  bottom: "fc_minc"
+  bottom: "fc8-conv"
   top: "prob"
 }
 

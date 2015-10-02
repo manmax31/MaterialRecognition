@@ -466,9 +466,9 @@ layer {
   bottom: "fc8_minc"
   bottom: "label"
   top: "accuracy"
-#  include {
-#    phase: TEST
-#  }
+  include {
+    phase: TEST
+  }
 }
 
 layer {
@@ -479,13 +479,13 @@ layer {
   top: "loss"
 }
 
-#layer {
-#  name: "prob"
-#  type: "Softmax"
-#  bottom: "fc8_minc"
-#  top: "prob"
-#  include {
-#    phase: TEST
-#  }
-#}
+layer {
+  name: "prob"
+  type: "Softmax"
+  bottom: "fc8_minc"
+  top: "prob"
+  include {
+    phase: TEST
+  }
+}
 
