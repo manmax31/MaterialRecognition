@@ -1,18 +1,18 @@
 __author__ = 'manabchetia'
 
+from os import listdir
+from os.path import join
+
 from keras.preprocessing import image
 from keras.models import Sequential
 from keras.layers.core import Flatten, Dense, Dropout
 from keras.layers.convolutional import Convolution2D, MaxPooling2D, ZeroPadding2D
-from keras.optimizers import SGD, RMSprop
+from keras.optimizers import SGD
 from keras.utils import np_utils
-from os import listdir, makedirs
-from os.path import join, exists
 from PIL import Image
-from pprint import pprint
 import numpy as np
-import cv2
 
+import cv2
 
 SCALE = 384
 SET = 3
@@ -116,6 +116,10 @@ def VGG_16(weights_path=None):
     #pprint(model.get_config())
 
 
+
+    model.layers.pop()
+
+
     return model
 
 
@@ -124,6 +128,8 @@ if __name__ == "__main__":
     im = im.transpose((2, 0, 1))
     im = np.expand_dims(im, axis=0)
 
+<< << << < Updated
+upstream
    
 
     X_train, y_train = read_images(TRAIN_DIR, VAL_DIR, TEST_DIR)
@@ -153,6 +159,12 @@ if __name__ == "__main__":
     #opt = RMSprop(lr=0.001, rho=0.9, epsilon=1e-6)
     model.compile(optimizer=opt, loss='categorical_crossentropy')
     print("Model compiled ...")
+== == == =  # Test pretrained model
+model = VGG_16('../../../../models/vgg16_weights.h5')
+sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(optimizer=sgd, loss='categorical_crossentropy')
+>> >> >> > Stashed
+changes
     out = model.predict(im)
     print CATEGORIES[np.argmax(out)]
 

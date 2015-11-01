@@ -1,15 +1,25 @@
+import lmdb
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+
 import caffe
-import sys
-from pprint import pprint
 
-caffe.set_mode_gpu()
-caffe.set_device(0)
+db_path = '../data/liris-accede/train_data_lmdb/'
 
-# MODEL_FILE = '/home/manab/Desktop/VGG/VGG_19_DTD_deploy.prototxt'
-# PRETRAINED = '/srv/datasets/Materials/DTD/dtd-r1.0.1/dtd/output/models/scaled_384/4/scaled_384_4__iter_3600.caffemodel'
-# CATEGORIES = [line.strip() for line in open('/srv/datasets/Materials/DTD/dtd-r1.0.1/dtd/output/Categories.txt', 'r')]
+lmdb_env = lmdb.open(db_path)  # equivalent to mdb_env_open()
+lmdb_txn = lmdb_env.begin()  # equivalent to mdb_txn_begin()
+lmdb_cursor = lmdb_txn.cursor()  # equivalent to mdb_cursor_open()
+lmdb_cursor.get('{:0>10d}'.format(1))  # get the data associated with the 'key' 1, change the value to get other images
+value = lmdb_cursor.value()
+key = lmdb_cursor.key()
 
-solver = caffe.SGDSolver('/home/manab/Desktop/GoogleNet_solver.prototxt')
-pprint(solver.net.outputs)
+datum = caffe.proto.caffe_pb2.Datum()
+datum.ParseFromString(value)
+image = np.zeros((datum.channels, datum.height, datum.width))
+image = caffe.io.datum_to_array(datum)
+image = np.transpose(image, (1, 2, 0))
+image = image[:, :, (2, 1, 0)]
+image = image.astype(np.uint8)
+
+mpimg.imsave('out.png', image)
