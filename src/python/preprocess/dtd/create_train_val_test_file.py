@@ -7,7 +7,7 @@ Contents of the files: [pathToImage classOfImage]
 from os import listdir
 from os.path import join
 
-SCALE = 256
+SCALE = 384
 
 DTD_DIR = "/srv/datasets/Materials/DTD/dtd-r1.0.1/dtd/"
 IMG_DIR = join(DTD_DIR, 'images')

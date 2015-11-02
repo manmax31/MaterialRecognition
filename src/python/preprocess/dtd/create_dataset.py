@@ -6,6 +6,7 @@ from os import listdir, makedirs
 from os.path import join, exists
 import shutil
 import errno
+from pprint import pprint
 
 # DTD_DIR = "/Users/manabchetia/Documents/PyCharm/MaterialRecognition/data/dtd"
 DTD_DIR = "/srv/datasets/Materials/DTD/dtd-r1.0.1/dtd"
@@ -50,36 +51,37 @@ def copy(src, dst):
 
 
 if __name__ == '__main__':
-    prepare_folders()
+    pprint(CATEGORIES)
+    # prepare_folders()
 
-    for SET in xrange(1, 11):
-        TRAIN_FILE = join(FILE_DIR, 'train' + str(SET) + '.txt')
-        TEST_FILE = join(FILE_DIR, 'test' + str(SET) + '.txt')
-        VAL_FILE = join(FILE_DIR, 'val' + str(SET) + '.txt')
+    # for SET in xrange(1, 11):
+    #     TRAIN_FILE = join(FILE_DIR, 'train' + str(SET) + '.txt')
+    #     TEST_FILE = join(FILE_DIR, 'test' + str(SET) + '.txt')
+    #     VAL_FILE = join(FILE_DIR, 'val' + str(SET) + '.txt')
 
-        with open(TRAIN_FILE) as train_file:
-            for line in train_file:
-                line = line.strip().split('/')
-                category = line[0]
-                img_name = line[1]
-                src = join(IMG_DIR, category)
-                dst = join(OUTPUT_DIR, str(SET), 'train', category)
-                copy(join(src, img_name), join(dst, img_name))
+    #     with open(TRAIN_FILE) as train_file:
+    #         for line in train_file:
+    #             line = line.strip().split('/')
+    #             category = line[0]
+    #             img_name = line[1]
+    #             src = join(IMG_DIR, category)
+    #             dst = join(OUTPUT_DIR, str(SET), 'train', category)
+    #             copy(join(src, img_name), join(dst, img_name))
 
-        with open(TEST_FILE) as test_file:
-            for line in test_file:
-                line = line.strip().split('/')
-                category = line[0]
-                img_name = line[1]
-                src = join(IMG_DIR, category)
-                dst = join(OUTPUT_DIR, str(SET), 'test', category)
-                copy(join(src, img_name), join(dst, img_name))
+    #     with open(TEST_FILE) as test_file:
+    #         for line in test_file:
+    #             line = line.strip().split('/')
+    #             category = line[0]
+    #             img_name = line[1]
+    #             src = join(IMG_DIR, category)
+    #             dst = join(OUTPUT_DIR, str(SET), 'test', category)
+    #             copy(join(src, img_name), join(dst, img_name))
 
-        with open(VAL_FILE) as val_file:
-            for line in val_file:
-                line = line.strip().split('/')
-                category = line[0]
-                img_name = line[1]
-                src = join(IMG_DIR, category)
-                dst = join(OUTPUT_DIR, str(SET), 'validate', category)
-                copy(join(src, img_name), join(dst, img_name))
+    #     with open(VAL_FILE) as val_file:
+    #         for line in val_file:
+    #             line = line.strip().split('/')
+    #             category = line[0]
+    #             img_name = line[1]
+    #             src = join(IMG_DIR, category)
+    #             dst = join(OUTPUT_DIR, str(SET), 'validate', category)
+    #             copy(join(src, img_name), join(dst, img_name))

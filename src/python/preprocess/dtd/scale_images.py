@@ -1,6 +1,6 @@
 __author__ = 'manabchetia'
 '''
-This script creates a new dataset based on SCALE = 256 or 384 or [256:384]
+This script creates a new dataset based on SCALE = 256 or 384 or [256:512]
 '''
 
 from os import listdir, makedirs
