@@ -29,12 +29,10 @@ def read_images(train_dir, val_dir, test_dir):
     labels = filter(lambda x: '.DS_Store' not in x, listdir(train_dir))
     
     X_train = []
-    #X_test = []
     X_val = []
     
     y_train = np.repeat(np.linspace(0, len(CATEGORIES)-1, len(CATEGORIES)), 40)
     y_val = []
-    #y_test = []
 
     for label in labels:
         imgs_train = filter(lambda image: image.endswith('.jpg'), listdir(join(train_dir, label)))
@@ -126,6 +124,14 @@ if __name__ == "__main__":
     Y_train = np_utils.to_categorical(y_train, 47)
     Y_test = np_utils.to_categorical(y_test, 47)
 
+    X_train = X_train.astype("float32")
+    X_test = X_test.astype("float32")
+    X_train /= 255
+    X_test /= 255
+
+    # print X_train.shape
+    # print X_test.shape
+
     datagen = image.ImageDataGenerator(
     featurewise_center=True,
     featurewise_std_normalization=True,
@@ -150,17 +156,17 @@ if __name__ == "__main__":
     nb_epoch = 100
     for e in xrange(nb_epoch):
         print('\nEpoch '+str(e))
-        # print("Training...")
-        # progbar_train = generic_utils.Progbar(X_train.shape[0])
-        # for X_batch, Y_batch in datagen.flow(X_train, Y_train, batch_size=66):
-        #     (loss, acc) = model.train_on_batch(X_batch, Y_batch, accuracy=True)
-        #     progbar_train.add(X_batch.shape[0], values=[("train loss", loss)])
+        print("Training...")
+        progbar_train = generic_utils.Progbar(X_train.shape[0])
+        for X_batch, Y_batch in datagen.flow(X_train, Y_train, batch_size=66):
+            (loss, acc) = model.train_on_batch(X_batch, Y_batch, accuracy=True)
+            progbar_train.add(X_batch.shape[0], values=[("train loss", loss)])
 
         print("Testing...")
         # test time!
         progbar_test = generic_utils.Progbar(X_test.shape[0])
         for X_batch, Y_batch in datagen.flow(X_test, Y_test):
-            (loss, acc) = model.test_on_batch(X_batch, Y_batch, accuracy=True)
-            progbar_test.add(X_batch.shape[0], values=[('test acc', acc)])
+            loss = model.test_on_batch(X_batch, Y_batch, accuracy=False)
+            progbar_test.add(X_batch.shape[0], values=[('test loss', loss)])
 
 
