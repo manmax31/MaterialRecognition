@@ -9,7 +9,9 @@ import sys
 
 import caffe
 caffe.set_mode_gpu()
+caffe.set_device(1)
 
+SOLVER = '/home/manab/Desktop/GoogleNet_solver.prototxt'
 MODEL_FILE = '/home/manab/Desktop/VGG/VGG_19_DTD_deploy.prototxt'
 PRETRAINED = '/home/manab/Downloads/VGG_Caffe_Model/VGG_ILSVRC_16_layers.caffemodel'
 db_path = '/home/manab/Documents/lmdb/train_db/'
@@ -19,7 +21,7 @@ correct = 0
 matrix = defaultdict(int) # (real,pred) -> int
 labels_set = set()
 
-net = caffe.Net(MODEL_FILE, PRETRAINED, caffe.TEST)
+net = caffe.Net(MODEL_FILE, PRETRAINED, caffe.TRAIN)
 
 lmdb_env = lmdb.open(db_path)
 lmdb_txn = lmdb_env.begin()
@@ -28,52 +30,66 @@ lmdb_cursor = lmdb_txn.cursor()
 
 count = 0
 
-for key, value in lmdb_cursor:
-    datum = caffe.proto.caffe_pb2.Datum()
-    datum.ParseFromString(value)
-    label = int(datum.label)
-    image = caffe.io.datum_to_array(datum)
-    # print 'Orig:', image.shape
-
-    image = image[:, :, (2, 1, 0)]
-    image = image.transpose((1, 2, 0))
-    image = image.astype(np.uint8)
-    # print 'Transpose:', image.shape
-
-    image = resize(image, (224, 224))
-    image = image.transpose((2, 1, 0))
-    # print 'Resized:', image.shape
-
-    # count += 1
-    #
-    # if count == 1:
-    #     break
+image = caffe.io.resize_image(caffe.io.load_image('/home/manab/Desktop/VGG/Augment/banded_0002.jpg'), (224,224))
+image = image[:, :, (2, 1, 0)] #RGB to BGR
+print image.shape
+image = image.transpose((2, 1, 0))
+net.blobs['data'].data[...] = image
+net.forward()
 
 
-    out = net.forward_all(data=np.asarray([image]))
-    plabel = int(out['prob'][0].argmax(axis=0))
+# solver = caffe.SGDSolver(SOLVER)
+# solver.net.copy_from(PRETRAINED)
+# solver.solve()
 
-    count = count + 1
-    iscorrect = label == plabel
-    correct = correct + (1 if iscorrect else 0)
-    matrix[(label, plabel)] += 1
-    labels_set.update([label, plabel])
+print len(net.blobs['data'].data[...])
 
-    if not iscorrect:
-        print("\rError: key=%s, expected %i but predicted %i" \
-                % (key, label, plabel))
+# for key, value in lmdb_cursor:
+#     datum = caffe.proto.caffe_pb2.Datum()
+#     datum.ParseFromString(value)
+#     label = int(datum.label)
+#     image = caffe.io.datum_to_array(datum)
+#     # print 'Orig:', image.shape
 
-    sys.stdout.write("\rAccuracy: %.1f%%" % (100.*correct/count))
-    sys.stdout.flush()
+#     image = image[:, :, (2, 1, 0)] #BGR to RGB
+#     image = image.transpose((1, 2, 0))
+#     # image = image[:, :, (2, 1, 0)]
+#     image = image.astype(np.uint8)
+#     # print 'Transpose:', image.shape
 
-print(str(correct) + " out of " + str(count) + " were classified correctly")
+#     image = resize(image, (224, 224))
+#     image = image.transpose((2, 1, 0))
+#     # print 'Resized:', image.shape
 
-print ""
-print "Confusion matrix:"
-print "(r , p) | count"
-for l in labels_set:
-    for pl in labels_set:
-        print "(%i , %i) | %i" % (l, pl, matrix[(l,pl)])
+#     # count += 1
+#     #
+#     # if count == 1:
+#     #     break
+
+#     outs, diffs = net.forward_backward_all(data=np.asarray([image]))
+#     plabel = int(outs['prob'][0].argmax(axis=0))
+
+#     count += 1
+#     iscorrect = (label == plabel)
+#     correct = correct + (1 if iscorrect else 0)
+#     matrix[(label, plabel)] += 1
+#     labels_set.update([label, plabel])
+
+#     if not iscorrect:
+#         print("\rError: key=%s, expected %i but predicted %i" \
+#                 % (key, label, plabel))
+
+#     sys.stdout.write("\rAccuracy: %.1f%%" % (100.*correct/count))
+#     sys.stdout.flush()
+
+# print(str(correct) + " out of " + str(count) + " were classified correctly")
+
+# print ""
+# print "Confusion matrix:"
+# print "(r , p) | count"
+# for l in labels_set:
+#     for pl in labels_set:
+#         print "(%i , %i) | %i" % (l, pl, matrix[(l,pl)])
 
 
 
